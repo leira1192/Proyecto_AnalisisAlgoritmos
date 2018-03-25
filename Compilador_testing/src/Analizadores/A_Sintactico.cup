@@ -1,0 +1,67 @@
+package Analizadores;
+import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+
+
+parser code
+{:
+    public String resultado="";
+    public static LinedList<TError> TablaES = new LinkedList<TError>();
+
+    public void syntax_error(Symbol s){
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+
+        System.out.println("!!! Error Sintactico Recuperado!!!!");
+        System.out.println("\t\t lexema: " + lexema);
+        System.out.println("\t\t Fila: " + fila);
+        System.out.println("\t\t Columna: " + columna);
+
+        TError datos = new TError(lexema, fila, columna, "Error sintactico","Caracter no esperado");
+        TablaES.add(datos);
+    }
+:}
+
+action code
+{:
+
+:}
+
+terminal mas,menos,por,div,para,parc;
+terminal String num;
+
+non terminal String INICIO,E;
+
+//Precedenica de menor a mayor
+precedence left mas, menos;
+precedence left por, div;
+
+start with INICIO;
+
+/*Reglas Semanticas*/
+
+INICIO::=E {: resultado = a; :};
+
+E::= E:a mas E:b {: int val1 = Integer.parseInt(a);
+                    int val2 = Integer.parseInt(b);
+                    int r = val1 + val2;
+                    RESULT = String.valueof(r); 
+                    :}
+    |E:a menos E:b {: int val1 = Integer.parseInt(a);
+                    int val2 = Integer.parseInt(b);
+                    int r = val1 - val2;
+                    RESULT = String.valueof(r); 
+                    :}
+    |E:a div E:b {: int val1 = Integer.parseInt(a);
+                    int val2 = Integer.parseInt(b);
+                    int r = val1 / val2;
+                    RESULT = String.valueof(r); 
+                    :}
+    |E:a por E:b {: int val1 = Integer.parseInt(a);
+                    int val2 = Integer.parseInt(b);
+                    int r = val1 * val2;
+                    RESULT = String.valueof(r); 
+                    :}
+    |para E:a {: RESULT = a; :} parc
+    |num:a {: RESULT = a; :};

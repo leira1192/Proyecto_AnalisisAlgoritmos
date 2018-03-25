@@ -198,6 +198,8 @@ public class Main extends javax.swing.JFrame {
                     if (Pos_Mochila == this.Multiples_Mochilas.size()) {
                         JOptionPane.showMessageDialog(this, "Ya no le queda espacio en ninguna mochila");
                         ingresado = true;
+                    }else{
+                        Pos_Mochila++;
                     }
                 }
             } else {
@@ -218,7 +220,7 @@ public class Main extends javax.swing.JFrame {
                         if (Pos_Mochila == this.Multiples_Mochilas.size()) {
                             JOptionPane.showMessageDialog(this, "Ya no le queda espacio en ninguna mochila");
                             ingresado = true;
-                        }
+                        }Pos_Mochila++;
                     }
                 } else {
                     //Si escuchamos un ruido nos vamos y estando a salvo hacemos conteo de lo que hemos robado
